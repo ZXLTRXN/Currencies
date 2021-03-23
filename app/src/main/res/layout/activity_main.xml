@@ -40,13 +40,27 @@
             android:layout_height="match_parent"
             />
     </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal">
 
     <Button
         android:id="@+id/btn_converter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_converter_text"
-        android:layout_gravity="center_horizontal"/>
+        android:text="@string/btn_converter_text" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="@dimen/indent_mid"
+        android:visibility="invisible"/>
+
+</LinearLayout>
+
 
     <ListView
         android:id="@+id/lv_currencies"
