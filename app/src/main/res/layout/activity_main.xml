@@ -13,10 +13,11 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/et_converter"
+            android:id="@+id/et_converter_input"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:inputType="number"
+            android:inputType="numberDecimal"
+            android:text="@string/et_start_value"
             android:width="@dimen/converter_field_size"
             android:layout_marginRight="@dimen/indent_min"/>
 
@@ -27,29 +28,38 @@
             android:text="@string/orig_currency"
             android:layout_marginRight="@dimen/indent_min"/>
 
-        <TextView
-            android:id="@+id/tv_converter"
+
+        <EditText
+            android:id="@+id/et_converter_result"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:focusable="false"
+            android:text="@string/et_res_start_value"
             android:width="@dimen/converter_field_size"
             android:layout_marginRight="@dimen/indent_min"/>
 
-        <Spinner
-            android:id="@+id/spinner_converter"
-            android:layout_width="wrap_content"
+
+        <AutoCompleteTextView
+            android:id="@+id/actv_converter"
+            android:layout_width="69dp"
+            android:hint="@string/actv_hint"
             android:layout_height="match_parent"
+            android:completionThreshold="1"
             />
     </LinearLayout>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_horizontal">
+    android:layout_margin="@dimen/indent_mid">
 
     <Button
         android:id="@+id/btn_converter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/indent_mid"
         android:text="@string/btn_converter_text" />
 
     <ProgressBar
@@ -61,6 +71,10 @@
 
 </LinearLayout>
 
+<TextView
+    android:id="@+id/tv_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
 
     <ListView
         android:id="@+id/lv_currencies"

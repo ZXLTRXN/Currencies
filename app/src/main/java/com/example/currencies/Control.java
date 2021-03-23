@@ -7,9 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -17,7 +21,8 @@ import java.util.concurrent.FutureTask;
 
 public class Control {
     private JSONObject currenciesJSON;
-    private List<String> currenciesList;
+    private Date dateOfLastUpdate;
+    private List<Currency> currenciesList;
 
     // скачивает курсы валют
     public int updateCourse(){
@@ -55,12 +60,13 @@ public class Control {
         return 1;
     }
 
-    //формирует из Json object список формата (обозначение,имя,цена)
+    //формирует из Json object список класса валют
     public int makeListOfCurrencies() {
-        List<String> result = new ArrayList<String>();
+        List<Currency> result = new ArrayList<Currency>();
         JSONObject currency;
 
         try {
+            //dateOfLastUpdate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'z").parse(currenciesJSON.getString("Date"));
             JSONObject valute = currenciesJSON.getJSONObject("Valute");
             Iterator<String> keys = valute.keys();
 
@@ -68,10 +74,11 @@ public class Control {
                 String key = keys.next();
                 if (valute.get(key) instanceof JSONObject) {
                     currency = valute.getJSONObject(key);
-                    String temp = currency.getString("CharCode")+'\n'+
-                            currency.getString("Name")+'\n'+
-                            currency.getDouble("Value");
-                    result.add(temp);
+                    Currency tmp = new Currency(currency.getString("CharCode"),
+                            currency.getString("Name"),currency.getDouble("Value"),
+                            currency.getInt("Nominal"));
+
+                    result.add(tmp);
                 }
             }
         } catch (JSONException e) {
@@ -82,8 +89,11 @@ public class Control {
         return 0;
     }
 
+    public Date getDateOfLastUpdate() {
+        return dateOfLastUpdate;
+    }
 
-    public List<String> getCurrenciesList() {
+    public List<Currency> getCurrenciesList() {
         return currenciesList;
     }
 
