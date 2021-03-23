@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/indent_mid"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_converter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:width="@dimen/et_size"
+            android:layout_marginRight="@dimen/indent_min"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/orig_currency"
+            android:layout_marginRight="@dimen/indent_min"/>
+
+        <TextView
+            android:id="@+id/tv_converter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:width="@dimen/et_size"
+            android:layout_marginRight="@dimen/indent_min"/>
+
+        <Spinner
+            android:id="@+id/spinner_converter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_converter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
+    <ListView
+        android:id="@+id/lv_currencies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/indent_mid"/>
+
+
+</LinearLayout>
