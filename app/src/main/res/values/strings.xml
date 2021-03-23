@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Курс валют</string>
     <string name="orig_currency">Руб</string>
+    <string name="btn_converter_text">Перевести</string>
 </resources>

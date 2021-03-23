@@ -3,7 +3,7 @@
     <dimen name="indent_min">5dp</dimen>
     <dimen name="indent_mid">15dp</dimen>
     <dimen name="indent_max">10dp</dimen>
-    <dimen name="et_size">130dp</dimen>
+    <dimen name="converter_field_size">150dp</dimen>
     <dimen name="text_size_min">16sp</dimen>
     <dimen name="text_size_mid">20sp</dimen>
     <dimen name="text_size_max">25sp</dimen>

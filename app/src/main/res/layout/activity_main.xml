@@ -17,12 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:width="@dimen/et_size"
+            android:width="@dimen/converter_field_size"
             android:layout_marginRight="@dimen/indent_min"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:text="@string/orig_currency"
             android:layout_marginRight="@dimen/indent_min"/>
 
@@ -30,7 +31,7 @@
             android:id="@+id/tv_converter"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:width="@dimen/et_size"
+            android:width="@dimen/converter_field_size"
             android:layout_marginRight="@dimen/indent_min"/>
 
         <Spinner
@@ -44,6 +45,7 @@
         android:id="@+id/btn_converter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/btn_converter_text"
         android:layout_gravity="center_horizontal"/>
 
     <ListView
