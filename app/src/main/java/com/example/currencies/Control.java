@@ -102,7 +102,7 @@ public class Control {
         JSONObject currency;
 
         try {
-            //dateOfLastUpdate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'z").parse(currenciesJSON.getString("Date"));
+            dateOfLastUpdate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(currenciesJSON.getString("Date"));
             JSONObject valute = currenciesJSON.getJSONObject("Valute");
             Iterator<String> keys = valute.keys();
 
@@ -117,7 +117,7 @@ public class Control {
                     result.add(tmp);
                 }
             }
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
             return 1;
         }

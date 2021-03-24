@@ -76,7 +76,8 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="состояние на 24(раз в 3 дня)"
+        android:textSize="@dimen/text_size_min"
+        android:gravity="center"
         android:layout_gravity="center"/>
 
     <Button

@@ -4,6 +4,7 @@
     <string name="btn_converter_text">Перевести</string>
     <string name="btn_update_text">Обновить курс</string>
     <string name="err_message_network">Сервис недоступен \nПроверьте соединение</string>
+    <string name="message_update">Обновлено</string>
     <string name="err_message_choose">Выберите валюту</string>
     <string name="et_start_value">1</string>
     <string name="et_res_start_value">0</string>

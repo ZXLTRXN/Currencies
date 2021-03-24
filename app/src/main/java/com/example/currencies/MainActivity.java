@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -90,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 currenciesStrings.add(tmp);
                 currenciesCharCodes.add(tmp1);
             }
-            //date.setText(ctrl.getDateOfLastUpdate().toString());
+            SimpleDateFormat formatForDate = new SimpleDateFormat("'обновление от'\n dd MMM yyyy HH:mm\n '(обновляется раз в день)'");
+            date.setText(formatForDate.format(ctrl.getDateOfLastUpdate()));
             listViewAdapter = new ArrayAdapter<String>(this, R.layout.list_item, currenciesStrings);
             currenciesList.setAdapter(listViewAdapter );
 
@@ -163,13 +165,21 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             //качает с сервера
-                            int res=ctrl.updateCourse(getFilesDir(),Sourse.Network);
-                            if(res == 1)
+                            int res = ctrl.updateCourse(getFilesDir(), Sourse.Network);
+                            if (res == 1) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MainActivity.this,R.string.err_message_network,Toast.LENGTH_LONG).show();
+                                        Toast.makeText(MainActivity.this, R.string.err_message_network, Toast.LENGTH_LONG).show();
                                     }
                                 });
+                            }
+                            else{
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, R.string.message_update, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            }
                         }
                     };
                     Thread th = new Thread(getRespFromServer);
@@ -182,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     currenciesStrings.clear();
                     currenciesCharCodes.clear();
+
                     for(int i=0; i < currencies.size();i++)
                     {
                         String tmp = currencies.get(i).toString();
