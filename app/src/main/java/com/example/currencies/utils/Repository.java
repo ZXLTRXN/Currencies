@@ -1,16 +1,14 @@
-package com.example.currencies.Utils;
+package com.example.currencies.utils;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 
 //класс работы с файлами на устройстве
 public class Repository {

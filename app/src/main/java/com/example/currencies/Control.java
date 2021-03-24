@@ -1,9 +1,8 @@
 package com.example.currencies;
 
-import com.example.currencies.Utils.NetworkUtils;
-import com.example.currencies.Utils.Repository;
+import com.example.currencies.utils.NetworkUtils;
+import com.example.currencies.utils.Repository;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,16 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-
-enum Sourse{
-    File,
-    Network
-}
 
 public class Control {
     private JSONObject currenciesJSON;

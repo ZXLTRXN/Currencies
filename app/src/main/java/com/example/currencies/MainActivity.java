@@ -1,8 +1,14 @@
 package com.example.currencies;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.Editable;
@@ -20,9 +26,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.currencies.updateServices.MyService;
+
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> autoTextViewAdapter;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +90,19 @@ public class MainActivity extends AppCompatActivity {
         List<String> currenciesStrings = new ArrayList<>();
         List<String> currenciesCharCodes = new ArrayList<>();
 
+        ///обновление данных в 11:35
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.ZONE_OFFSET, 3*(60*60*1000));
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 35);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(MainActivity.this, MyService.class);
+        PendingIntent pIntent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+        AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
+        
+
         if(currencies == null) {
             Toast.makeText(getApplicationContext(),R.string.err_message_network,Toast.LENGTH_LONG).show();
         }else
@@ -98,6 +121,24 @@ public class MainActivity extends AppCompatActivity {
 
             autoTextViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, currenciesCharCodes);
             chooseCurrency.setAdapter(autoTextViewAdapter );
+
+            convertInput.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().length() == 1 && s.toString().startsWith("0"))
+                        s.clear();
+                }
+            });
 
 
             AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener(){
@@ -142,6 +183,9 @@ public class MainActivity extends AppCompatActivity {
                         if(tmp.equals(currency.getCharCode()))
                         {
                             double result = 0;
+                            if(convertInput.getText().toString().equals(""))
+                                convertInput.setText("1");
+
                             try {
                                 result = Converter.Convert(Double.parseDouble(convertInput.getText().toString()),currency.getNominal(),currency.getValue());
                             } catch (Exception e) {
