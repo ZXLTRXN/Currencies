@@ -12,6 +12,7 @@ public class MyService extends Service {
 
     private Control ctrl;
 
+    //сервис обновления данных в определенное время
     public MyService() {
     }
 
@@ -32,7 +33,7 @@ public class MyService extends Service {
         Runnable getResp = new Runnable() {
             @Override
             public void run() {
-                //читает из файла, если пуст, то с сервера
+                //читает с сервера
                 ctrl.updateCourse(getFilesDir(),Sourse.Network);
             }
         };

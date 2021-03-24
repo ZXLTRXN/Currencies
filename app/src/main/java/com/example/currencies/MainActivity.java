@@ -86,15 +86,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         loadingIndicator.setVisibility(View.INVISIBLE);
+        // необходимые данные для активити
         List<Currency> currencies = ctrl.getCurrenciesList();
         List<String> currenciesStrings = new ArrayList<>();
         List<String> currenciesCharCodes = new ArrayList<>();
 
-        ///обновление данных в 11:35
+        ///обновление данных вечером, тк на сайте оно так обновляется
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.ZONE_OFFSET, 3*(60*60*1000));
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 35);
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(MainActivity.this, MyService.class);
@@ -114,11 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 currenciesStrings.add(tmp);
                 currenciesCharCodes.add(tmp1);
             }
-            SimpleDateFormat formatForDate = new SimpleDateFormat("'обновление от'\n dd MMM yyyy HH:mm\n '(обновляется раз в день)'");
+            SimpleDateFormat formatForDate = new SimpleDateFormat("'релевантно на'\n dd MMM yyyy HH:mm 'местного времени \n(обновляется раз в день заранее)'");
             date.setText(formatForDate.format(ctrl.getDateOfLastUpdate()));
+
+            //адаптеры
             listViewAdapter = new ArrayAdapter<String>(this, R.layout.list_item, currenciesStrings);
             currenciesList.setAdapter(listViewAdapter );
-
             autoTextViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, currenciesCharCodes);
             chooseCurrency.setAdapter(autoTextViewAdapter );
 
@@ -149,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                         chooseCurrency.setText(parent.getItemAtPosition(position).toString().substring(0,3));
                         chooseCurrency.dismissDropDown();
                     }
-                    boolean flag = false;
                     for(Currency currency : currencies)
                     {
                         String tmp = chooseCurrency.getText().toString().toUpperCase();
@@ -162,11 +163,9 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             convertRes.setText(String.format("%.2f",result));
-                            flag = true;
                             break;
                         }
                     }
-
                 }
             };
 

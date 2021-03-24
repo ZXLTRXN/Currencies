@@ -15,13 +15,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+
+// класс подготавливающий данные для активити
 public class Control {
     private JSONObject currenciesJSON;
     private Date dateOfLastUpdate;
     private List<Currency> currenciesList;
 
 
-    // считает курсы валют либо из файла в дирректории filePath либо с сайта,
+    // читает курсы валют либо из файла в дирректории filePath либо с сайта,
     // выбирается на основе enum Sourse
     public int updateCourse(File filePath, Sourse sourse){
         Repository rep = new Repository(filePath);
@@ -85,7 +87,7 @@ public class Control {
         return 1;
     }
 
-    //формирует из Json object список класса валют
+    //формирует из Json object список класса валют, и считывает дату релевантности курса
     public int makeListOfCurrencies() {
         List<Currency> result = new ArrayList<Currency>();
         JSONObject currency;
