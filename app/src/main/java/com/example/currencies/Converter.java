@@ -1,5 +1,6 @@
 package com.example.currencies;
 
+//перевод валют
 public class Converter {
     public static double Convert(double valueRub, int nominal, double course) throws Exception
     {

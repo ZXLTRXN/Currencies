@@ -2,10 +2,11 @@
     <string name="app_name">Курс валют</string>
     <string name="orig_currency">РУБ</string>
     <string name="btn_converter_text">Перевести</string>
+    <string name="btn_update_text">Обновить курс</string>
     <string name="err_message_network">Сервис недоступен \nПроверьте соединение</string>
     <string name="err_message_choose">Выберите валюту</string>
     <string name="et_start_value">1</string>
     <string name="et_res_start_value">0</string>
     <string name="choose_currency_hint">Выберите</string>
-    <string name="actv_hint">\?</string>
+    <string name="actv_hint">Ввод</string>
 </resources>

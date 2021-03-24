@@ -1,11 +1,13 @@
 package com.example.currencies;
 
 import com.example.currencies.Utils.NetworkUtils;
+import com.example.currencies.Utils.Repository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,15 +21,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+enum Sourse{
+    File,
+    Network
+}
+
 public class Control {
     private JSONObject currenciesJSON;
     private Date dateOfLastUpdate;
     private List<Currency> currenciesList;
 
-    // скачивает курсы валют
-    public int updateCourse(){
+
+    // считает курсы валют либо из файла в дирректории filePath либо с сайта,
+    // выбирается на основе enum Sourse
+    public int updateCourse(File filePath, Sourse sourse){
+        Repository rep = new Repository(filePath);
         String response = null;
         JSONObject temp;
+
 //        Callable<String> getResponse = new Callable<String>() {
 //            @Override
 //            public String call() throws Exception {
@@ -40,10 +51,25 @@ public class Control {
 //        Thread t = new Thread(task);
 //        t.start();
 //        response = task.get();
-        try {
-            response = NetworkUtils.getResponseFromURL();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if(sourse == Sourse.File)
+        {
+            try{
+                response = rep.readFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 1;
+            }
+        }
+
+        if(response == null)
+        {
+            try {
+                response = NetworkUtils.getResponseFromURL();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return 1;
+            }
         }
 
         if(response != null)
@@ -54,6 +80,16 @@ public class Control {
                 e.printStackTrace();
                 return 1;
             }
+            if(sourse != Sourse.File)
+            {
+                try {
+                    rep.writeFile(currenciesJSON);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 1;
+                }
+            }
+
             makeListOfCurrencies();
             return 0;
         }

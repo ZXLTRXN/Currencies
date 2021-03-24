@@ -1,8 +1,10 @@
 package com.example.currencies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView convertRes;
     private TextView date;
     private Button convertBtn;
+    private Button updateBtn;
     private AutoCompleteTextView chooseCurrency;
     private ListView currenciesList;
     private ProgressBar loadingIndicator;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         convertInput = findViewById(R.id.et_converter_input);
         convertRes = findViewById(R.id.et_converter_result);
         convertBtn = findViewById(R.id.btn_converter);
+        updateBtn = findViewById(R.id.btn_update_list);
         chooseCurrency = findViewById(R.id.actv_converter);
         currenciesList = findViewById(R.id.lv_currencies);
         date = findViewById(R.id.tv_date);
@@ -57,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Runnable getResp = new Runnable() {
             @Override
             public void run() {
-                ctrl.updateCourse();
+                //читает из файла, если пуст, то с сервера
+                ctrl.updateCourse(getFilesDir(),Sourse.File);
             }
         };
         Thread th = new Thread(getResp);
@@ -92,44 +97,6 @@ public class MainActivity extends AppCompatActivity {
             autoTextViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, currenciesCharCodes);
             chooseCurrency.setAdapter(autoTextViewAdapter );
 
-//            convertInput.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    int position;
-//                    if((position = chooseCurrency.getListSelection())  != ListView.INVALID_POSITION)
-//                    {
-//                        Currency currentCur = currencies.get(position);
-//                        double result = 0;
-//                        try {
-//                            result = Converter.Convert(Double.parseDouble(convertInput.getText().toString()),currentCur.getNominal(),currentCur.getValue());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        convertRes.setText(Double.toString(result));
-//                    }
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    int position;
-//                    if((position = chooseCurrency.getListSelection())  != ListView.INVALID_POSITION)
-//                    {
-//                        Currency currentCur = currencies.get(position);
-//                        double result = 0;
-//                        try {
-//                            result = Converter.Convert(Double.parseDouble(convertInput.getText().toString()),currentCur.getNominal(),currentCur.getValue());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        convertRes.setText(Double.toString(result));
-//                    }
-//
-//                }
-//            });
 
             AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener(){
                 @Override
@@ -159,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
+
             chooseCurrency.setOnItemClickListener(onItemClickListener);
             currenciesList.setOnItemClickListener(onItemClickListener);
 
@@ -186,13 +154,50 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            updateBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadingIndicator.setVisibility(View.VISIBLE);
+
+                    Runnable getRespFromServer = new Runnable() {
+                        @Override
+                        public void run() {
+                            //качает с сервера
+                            int res=ctrl.updateCourse(getFilesDir(),Sourse.Network);
+                            if(res == 1)
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        Toast.makeText(MainActivity.this,R.string.err_message_network,Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                        }
+                    };
+                    Thread th = new Thread(getRespFromServer);
+                    th.start();
+
+                    try {
+                        th.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    currenciesStrings.clear();
+                    currenciesCharCodes.clear();
+                    for(int i=0; i < currencies.size();i++)
+                    {
+                        String tmp = currencies.get(i).toString();
+                        String tmp1 = currencies.get(i).getCharCode();
+                        currenciesStrings.add(tmp);
+                        currenciesCharCodes.add(tmp1);
+                    }
+                    listViewAdapter.notifyDataSetChanged();
+                    autoTextViewAdapter.notifyDataSetChanged();
+                    loadingIndicator.setVisibility(View.INVISIBLE);
+                }
+            });
+
         }
 
-
-
-
-
-
-
     }
+
+
 }

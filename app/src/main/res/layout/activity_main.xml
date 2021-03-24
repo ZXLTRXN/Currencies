@@ -53,6 +53,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_horizontal"
     android:layout_margin="@dimen/indent_mid">
 
     <Button
@@ -61,20 +62,30 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/indent_mid"
         android:text="@string/btn_converter_text" />
+</LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_gravity="center"
         android:layout_margin="@dimen/indent_mid"
         android:visibility="invisible"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="состояние на 24(раз в 3 дня)"
+        android:layout_gravity="center"/>
 
-<TextView
-    android:id="@+id/tv_date"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_update_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/indent_mid"
+        android:text="@string/btn_update_text" />
 
     <ListView
         android:id="@+id/lv_currencies"

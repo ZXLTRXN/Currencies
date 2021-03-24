@@ -1,5 +1,6 @@
 package com.example.currencies;
 
+//класс описывающий одну валюту
 public class Currency {
     private String charCode;
     private String name;
